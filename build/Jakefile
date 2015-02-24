@@ -1,0 +1,23 @@
+var cc = "emcc";
+var flags = "-O2 --memory-init-file 0 -std=c++11 -I ../include";
+var sourceDirectory = "../src";
+
+desc("Compiles each subcomponent");
+task("subcomponent", [], function () {
+  ["base64.cpp", "HMAC_SHA1.cpp", "SHA1.cpp", "urlencode.cpp", "liboauthcpp.cpp"].forEach(function (item) {
+    jake.exec([cc + ' ' + flags + " -c " + sourceDirectory + '/' + item], { printStdout: true, printStderr: true });
+  });
+});
+
+desc("Builds a JavaScript OAuth component.");
+task("default", ["subcomponent"], function (params) {
+  if (!params || params.length < 1 || !("key" in params && "secret" in params)) {
+    console.error("Please give consumer_key and consumer_secret as a key-value object. ( key: YOURKEY, secret: YOURSECRET )");
+    return;
+  }
+  
+  console.log("Jake received key and secret");
+  jake.exec([cc + ' ' + flags + "-o liboauthcpp.js"], { printStdout: true, printStderr: true }, function () {
+    console.log("liboauthcpp is built successfully.")
+  })
+});
