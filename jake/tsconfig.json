@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "out": "Jakefile"
+    },
+    "files": [
+        "Jakefile.ts"
+    ]
+}
