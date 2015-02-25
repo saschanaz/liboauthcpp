@@ -2,7 +2,7 @@
 /// <reference path="ts-definitions/jake.d.ts" />
 
 var cc = "emcc";
-var flags = "-O2 --memory-init-file 0 -std=c++11 -I ../include";
+var flags = "-O2 --memory-init-file 0 -std=c++11 -I ../include -D SHA1_LITTLE_ENDIAN";
 var sourceDirectory = "../src";
 var subcomponents = ["base64", "HMAC_SHA1", "SHA1", "urlencode"];
 var lib = "liboauthcpp";
@@ -58,7 +58,6 @@ task("lib", function () {
 
 desc("Builds a JavaScript OAuth component.");
 task("default", ["subcomponent", "lib"], function () {
-  console.log("Start Emscriptening...");
   jake.exec([`${cc} --bind ${flags} -o ${lib}.js ${lib}.o ${subcomponentFiles("o").join(' ')}`], { printStdout: true, printStderr: true }, function () {
     console.log("liboauthcpp is built successfully.");
     complete();

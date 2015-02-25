@@ -616,12 +616,27 @@ bool Client::getStringFromOAuthKeyValuePairs( const KeyValuePairs& rawParamMap,
     return ( rawParams.length() ) ? true : false;
 }
 
+EMSCRIPTEN_BINDINGS(liboauthcpp) {
+    class_<Token>("Token")
+        .constructor<const std::string&, const std::string&>()
+        .property("key", &Token::key)
+        .property("secret", &Token::secret)
+        ;
+    class_<Client>("Client")
+        .constructor()
+        .constructor<const Token*>()
+        .function("getHttpHeader", &Client::getHttpHeader)
+        .function("getFormattedHttpHeader", &Client::getFormattedHttpHeader)
+        .function("getURLQueryString", &Client::getURLQueryString)
+        ;
+    enum_<Http::RequestType>("HttpRequestType")
+        .value("Invalid", Http::Invalid)
+        .value("Head", Http::Head)
+        .value("Get", Http::Get)
+        .value("Post", Http::Post)
+        .value("Delete", Http::Delete)
+        .value("Put", Http::Put)
+        ;
+}
 
 } // namespace OAuth
-
-EMSCRIPTEN_BINDINGS(liboauthcpp) {
-    class_<OAuth::Consumer>("Consumer")
-        .constructor<const std::string&, const std::string&>()
-        .property("key", &OAuth::Consumer::key)
-        .property("secret", &OAuth::Consumer::secret);
-}
