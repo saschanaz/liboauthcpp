@@ -177,7 +177,7 @@ public:
      *  \param consumer Consumer information. The caller must ensure
      *         it remains valid during the lifetime of this object
      */
-    Client(const Consumer* consumer);
+    Client();
     /** Construct an OAuth Client with consumer key and secret (yours)
      *  and access token key and secret (acquired and stored during
      *  three-legged authentication).
@@ -187,7 +187,7 @@ public:
      *  \param token Access token information. The caller must ensure
      *         it remains valid during the lifetime of this object
      */
-    Client(const Consumer* consumer, const Token* token);
+    Client(const Token* token);
 
     ~Client();
 
@@ -231,11 +231,6 @@ public:
                          const std::string& rawData = "",
                          const bool includeOAuthVerifierPin = false) const;
 private:
-    /** Disable default constructur -- must provide consumer
-     * information.
-     */
-    Client();
-
     static bool initialized;
     static int testingNonce;
     static time_t testingTimestamp;

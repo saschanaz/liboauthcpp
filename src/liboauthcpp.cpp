@@ -6,6 +6,12 @@
 #include <vector>
 #include <cassert>
 
+#ifndef EMBIND_H
+#define EMBIND_H
+#include <emscripten/bind.h>
+#endif
+using namespace emscripten;
+
 namespace OAuth {
 
 namespace Defaults
@@ -190,14 +196,14 @@ void Client::__resetInitialize() {
     initialized = false;
 }
 
-Client::Client(const Consumer* consumer)
- : mConsumer(consumer),
+Client::Client()
+ : mConsumer(new Consumer(CONSUMER_KEY, CONSUMER_SECRET)),
    mToken(NULL)
 {
 }
 
-Client::Client(const Consumer* consumer, const Token* token)
- : mConsumer(consumer),
+Client::Client(const Token* token)
+ : mConsumer(new Consumer(CONSUMER_KEY, CONSUMER_SECRET)),
    mToken(token)
 {
 }
@@ -612,3 +618,10 @@ bool Client::getStringFromOAuthKeyValuePairs( const KeyValuePairs& rawParamMap,
 
 
 } // namespace OAuth
+
+EMSCRIPTEN_BINDINGS(liboauthcpp) {
+    class_<OAuth::Consumer>("Consumer")
+        .constructor<const std::string&, const std::string&>()
+        .property("key", &OAuth::Consumer::key)
+        .property("secret", &OAuth::Consumer::secret);
+}
