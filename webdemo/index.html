@@ -1,11 +1,19 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
+    <link rel="stylesheet" href="tweets.css" />
     <script src="../jake/liboauthcpp.js"></script>
     <script src="tweet.js"></script>
   </head>
   <body>
+    <input id="clearButton" type="button" value="Clear" />
+    <input id="streamStartButton" type="button" value="Start" />
+    <input id="userKeyInput" type="text" placeholder="Key"/>
+    <input id="userSecretInput" type="text" placeholder="Secret" />
+    <input id="setClientButton" type="button" value="Set Client" />
+    <div id="tweetList" class="flexlist">
 
+    </div>
   </body>
 </html>

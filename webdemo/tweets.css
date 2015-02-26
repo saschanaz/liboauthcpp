@@ -1,0 +1,9 @@
+.flexlist {
+  display: flex;
+  flex-direction: column;
+  word-break: break-all;
+}
+
+  .flexlist > div {
+    margin: 80px;
+  }
