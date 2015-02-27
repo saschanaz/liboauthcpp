@@ -204,7 +204,7 @@ Client::Client()
 
 Client::Client(const Token* token)
  : mConsumer(new Consumer(CONSUMER_KEY, CONSUMER_SECRET)),
-   mToken(token)
+   mToken(const_cast<Token*>(token))
 {
 }
 
@@ -283,6 +283,13 @@ bool Client::buildOAuthTokenKeyValuePairs( const bool includeOAuthVerifierPin,
     // Encodes value part of key-value pairs depending on type of output (query
     // string vs. HTTP headers.
     StringConvertFunction value_encoder = (urlEncodeValues ? HttpEncodeQueryValue : PassThrough);
+
+    /* Callback URL */
+    if ( mCallback.length() )
+    {
+        // Callback URL string should always be escaped
+        ReplaceOrInsertKeyValuePair(keyValueMap, Defaults::CALLBACK_KEY, HttpEncodeQueryValue(mCallback));
+    }
 
     /* Consumer key and its value */
     ReplaceOrInsertKeyValuePair(keyValueMap, Defaults::CONSUMERKEY_KEY, value_encoder(mConsumer->key()));
@@ -530,6 +537,7 @@ std::string Client::buildOAuthParameterString(
     if (string_type == AuthorizationHeaderString) {
         KeyValuePairs oauthKeyValuePairs;
         std::vector<std::string> oauth_keys;
+        oauth_keys.push_back(Defaults::CALLBACK_KEY);
         oauth_keys.push_back(Defaults::CONSUMERKEY_KEY);
         oauth_keys.push_back(Defaults::NONCE_KEY);
         oauth_keys.push_back(Defaults::SIGNATURE_KEY);
@@ -616,6 +624,14 @@ bool Client::getStringFromOAuthKeyValuePairs( const KeyValuePairs& rawParamMap,
     return ( rawParams.length() ) ? true : false;
 }
 
+void Client::setToken(const Token* token) {
+    mToken = const_cast<Token*>(token);
+}
+
+void Client::setCallbackUrl(std::string callbackUrl) {
+    mCallback = callbackUrl;
+}
+
 EMSCRIPTEN_BINDINGS(liboauthcpp) {
     class_<Token>("Token")
         .constructor<const std::string&, const std::string&>()
@@ -628,6 +644,8 @@ EMSCRIPTEN_BINDINGS(liboauthcpp) {
         .function("getHttpHeader", &Client::getHttpHeader)
         .function("getFormattedHttpHeader", &Client::getFormattedHttpHeader)
         .function("getURLQueryString", &Client::getURLQueryString)
+        .function("setToken", &Client::setToken, allow_raw_pointers())
+        .function("setCallbackUrl", &Client::setCallbackUrl)
         ;
     enum_<Http::RequestType>("HttpRequestType")
         .value("Invalid", Http::Invalid)

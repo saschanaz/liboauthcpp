@@ -173,17 +173,12 @@ public:
      *  authentication (to acquire an access token for a user) or for
      *  simple two-legged authentication (signing with empty access
      *  token info).
-     *
-     *  \param consumer Consumer information. The caller must ensure
-     *         it remains valid during the lifetime of this object
      */
     Client();
     /** Construct an OAuth Client with consumer key and secret (yours)
      *  and access token key and secret (acquired and stored during
      *  three-legged authentication).
      *
-     *  \param consumer Consumer information. The caller must ensure
-     *         it remains valid during the lifetime of this object
      *  \param token Access token information. The caller must ensure
      *         it remains valid during the lifetime of this object
      */
@@ -230,6 +225,20 @@ public:
                          const std::string& rawUrl,
                          const std::string& rawData = "",
                          const bool includeOAuthVerifierPin = false) const;
+    /** Set an OAuth access token. You can use this method after
+     *  getting an access token within authentication process.
+     *
+     *  \param token Access token information. The caller must ensure
+     *         it remains valid during the lifetime of this object
+     */
+    void setToken(const Token* token);
+    /** Set an OAuth callback URL. You can use this method during
+     *  authentication process for OAuth callback. This URL value should be
+     *  emptied after authentication not to give redundant URL information.
+     *
+     *  \param callbackUrl Callback url to be accessed during authentication
+     */
+    void setCallbackUrl(std::string callbackUrl);
 private:
     static bool initialized;
     static int testingNonce;
@@ -237,7 +246,8 @@ private:
 
     /* OAuth data */
     const Consumer* mConsumer;
-    const Token* mToken;
+    Token* mToken = NULL;
+    std::string mCallback;
 
     /* OAuth related utility methods */
     bool buildOAuthTokenKeyValuePairs( const bool includeOAuthVerifierPin, /* in */
