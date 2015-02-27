@@ -45,7 +45,7 @@ task("lib", function () {
     if (!apptoken.key || !apptoken.secret)
         throw new Error("apptoken.json must have `key` and `secret` property.");
     console.log("Jake received key and secret");
-    var definitions = { CONSUMER_KEY: process.env.key, CONSUMER_SECRET: process.env.secret };
+    var definitions = { CONSUMER_KEY: apptoken.key, CONSUMER_SECRET: apptoken.secret };
     //if ("buildNonce" in params) {
     //  definitions["BUILD_NONCE"] = nodeBtoa(Math.random().toString());
     //}

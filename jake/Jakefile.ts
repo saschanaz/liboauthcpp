@@ -55,7 +55,7 @@ task("lib", function () {
   
   console.log("Jake received key and secret");
 
-  var definitions: { [key: string]: string } = { CONSUMER_KEY: process.env.key, CONSUMER_SECRET: process.env.secret };
+  var definitions: { [key: string]: string } = { CONSUMER_KEY: apptoken.key, CONSUMER_SECRET: apptoken.secret };
   //if ("buildNonce" in params) {
   //  definitions["BUILD_NONCE"] = nodeBtoa(Math.random().toString());
   //}
