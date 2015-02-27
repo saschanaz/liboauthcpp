@@ -25,6 +25,9 @@ declare module Module {
     getHttpHeader(requestType: HttpRequestType, url: string, data: string, includeOAuthVerifierPin: boolean): string;
     getFormattedHttpHeader(requestType: HttpRequestType, url: string, data: string, includeOAuthVerifierPin: boolean): string;
     getURLQueryString(requestType: HttpRequestType, url: string, data: string, includeOAuthVerifierPin: boolean): string;
+
+    setToken(token: Token): void;
+    setCallbackUrl(callbackUrl: string): void;
   }
   interface HttpRequestType extends EmscriptenEnum { }
   module HttpRequestType {
