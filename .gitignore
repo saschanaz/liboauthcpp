@@ -1,3 +1,6 @@
+# app token
+jake/apptoken.json
+
 # Build (by)products
 build/CMakeCache.txt
 build/CMakeFiles
@@ -7,6 +10,7 @@ build/liboauthcpp.a
 build/simple_auth
 build/simple_request
 build/tests
+jake/liboauthcpp.js
 
 # Compiled Object files
 *.slo

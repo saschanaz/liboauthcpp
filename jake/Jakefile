@@ -1,5 +1,6 @@
 /// <reference path="ts-definitions/node-0.10.d.ts" />
 /// <reference path="ts-definitions/jake.d.ts" />
+var fs = require("fs");
 var cc = "emcc";
 var flags = "-O2 --memory-init-file 0 -std=c++11 -I ../include -D SHA1_LITTLE_ENDIAN";
 var sourceDirectory = "../src";
@@ -31,9 +32,18 @@ task("subcomponent", function () {
 }, { async: true });
 desc("Compiles liboauthcpp.cpp");
 task("lib", function () {
-    if (!("key" in process.env && "secret" in process.env)) {
-        throw new Error("Please give consumer_key and consumer_secret as a key-value object. ( key=YOURKEY, secret=YOURSECRET )");
+    if (!fs.existsSync("apptoken.json")) {
+        throw new Error("Please give apptoken.json as a key-value object. ( { key: YOURKEY, secret: YOURSECRET } )");
     }
+    var apptoken;
+    try {
+        apptoken = JSON.parse(fs.readFileSync("apptoken.json").toString());
+    }
+    catch (e) {
+        throw new Error("Incorrect json format in apptoken.json file.");
+    }
+    if (!apptoken.key || !apptoken.secret)
+        throw new Error("apptoken.json must have `key` and `secret` property.");
     console.log("Jake received key and secret");
     var definitions = { CONSUMER_KEY: process.env.key, CONSUMER_SECRET: process.env.secret };
     //if ("buildNonce" in params) {
