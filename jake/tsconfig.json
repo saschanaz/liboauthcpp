@@ -1,8 +1,7 @@
 {
     "compilerOptions": {
         "module": "commonjs",
-        "noImplicitAny": true,
-        "out": "Jakefile"
+        "noImplicitAny": true
     },
     "files": [
         "Jakefile.ts"
