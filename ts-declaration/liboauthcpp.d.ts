@@ -10,7 +10,7 @@ declare namespace liboauthcpp {
     value: number;
   }
 
-  interface Token {
+  interface Token extends EmscriptenInstance {
     key: string;
     secret: string;
   }
@@ -18,7 +18,7 @@ declare namespace liboauthcpp {
     new (key: string, secret: string): Token;
     prototype: Token;
   }
-  interface Client {
+  interface Client extends EmscriptenInstance {
     getHttpHeader(requestType: HttpRequestType, url: string, data: string, includeOAuthVerifierPin: boolean): string;
     getFormattedHttpHeader(requestType: HttpRequestType, url: string, data: string, includeOAuthVerifierPin: boolean): string;
     getURLQueryString(requestType: HttpRequestType, url: string, data: string, includeOAuthVerifierPin: boolean): string;
