@@ -2,7 +2,7 @@
 /// <reference path="ts-definitions/jake.d.ts" />
 var fs = require("fs");
 var cc = "emcc";
-var flags = "-O2 --memory-init-file 0 -std=c++11 -I ../include -D SHA1_LITTLE_ENDIAN";
+var flags = '-O2 --memory-init-file 0 -s MODULARIZE="1" -s EXPORT_NAME="_liboauthcpp" -std=c++11 -I ../include -D SHA1_LITTLE_ENDIAN';
 var sourceDirectory = "../src";
 var subcomponents = ["base64", "HMAC_SHA1", "SHA1", "urlencode"];
 var lib = "liboauthcpp";

@@ -1,27 +1,24 @@
-/** Emscripten Basic */
-declare module Module {
-  class EmscriptenClass {
+declare namespace liboauthcpp {
+  /** Emscripten Basic */
+  interface EmscriptenInstance {
     delete(): void;
-    clone(): any; // this;
+    clone(): this;
     isAliasOf(other: any): boolean;
     isDeleted(): boolean;
   }
   interface EmscriptenEnum {
     value: number;
   }
-}
 
-declare module Module {
-  class Token extends EmscriptenClass {
+  interface Token {
     key: string;
     secret: string;
-
-    constructor(key: string, secret: string);
   }
-  class Client extends EmscriptenClass {
-    constructor();
-    constructor(token: Token);
-    
+  interface TokenConstructor {
+    new (key: string, secret: string): Token;
+    prototype: Token;
+  }
+  interface Client {
     getHttpHeader(requestType: HttpRequestType, url: string, data: string, includeOAuthVerifierPin: boolean): string;
     getFormattedHttpHeader(requestType: HttpRequestType, url: string, data: string, includeOAuthVerifierPin: boolean): string;
     getURLQueryString(requestType: HttpRequestType, url: string, data: string, includeOAuthVerifierPin: boolean): string;
@@ -29,13 +26,26 @@ declare module Module {
     setToken(token: Token): void;
     setCallbackUrl(callbackUrl: string): void;
   }
-  interface HttpRequestType extends EmscriptenEnum { }
-  module HttpRequestType {
-    var Invalid: EmscriptenEnum;
-    var Head: EmscriptenEnum;
-    var Get: EmscriptenEnum;
-    var Post: EmscriptenEnum;
-    var Delete: EmscriptenEnum;
-    var Put: EmscriptenEnum;
+  interface ClientConstructor {
+    new (): Client;
+    new (token: Token): Client;
+    prototype: Client;
+  }
+
+  interface HttpRequestType {
+    Invalid: EmscriptenEnum;
+    Head: EmscriptenEnum;
+    Get: EmscriptenEnum;
+    Post: EmscriptenEnum;
+    Delete: EmscriptenEnum;
+    Put: EmscriptenEnum;
   }
 }
+
+interface liboauthcppConstructor {
+  Token: liboauthcpp.TokenConstructor;
+  Client: liboauthcpp.ClientConstructor;
+  HttpRequestType: liboauthcpp.HttpRequestType;
+}
+
+declare var _liboauthcpp: liboauthcppConstructor;
