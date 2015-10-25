@@ -42,10 +42,14 @@ declare namespace liboauthcpp {
   }
 }
 
-interface liboauthcppConstructor {
+interface liboauthcpp {
   Token: liboauthcpp.TokenConstructor;
   Client: liboauthcpp.ClientConstructor;
   HttpRequestType: liboauthcpp.HttpRequestType;
 }
 
-declare var _liboauthcpp: liboauthcppConstructor;
+interface liboauthcppFactory {
+  (): liboauthcpp
+}
+
+declare var _liboauthcpp: liboauthcppFactory;
