@@ -19,9 +19,9 @@ declare namespace liboauthcpp {
     prototype: Token;
   }
   interface Client extends EmscriptenInstance {
-    getHttpHeader(requestType: HttpRequestType, url: string, data: string, includeOAuthVerifierPin: boolean): string;
-    getFormattedHttpHeader(requestType: HttpRequestType, url: string, data: string, includeOAuthVerifierPin: boolean): string;
-    getURLQueryString(requestType: HttpRequestType, url: string, data: string, includeOAuthVerifierPin: boolean): string;
+    getHttpHeader(requestType: EmscriptenEnum, url: string, data: string, includeOAuthVerifierPin: boolean): string;
+    getFormattedHttpHeader(requestType: EmscriptenEnum, url: string, data: string, includeOAuthVerifierPin: boolean): string;
+    getURLQueryString(requestType: EmscriptenEnum, url: string, data: string, includeOAuthVerifierPin: boolean): string;
 
     setToken(token: Token): void;
     setCallbackUrl(callbackUrl: string): void;
