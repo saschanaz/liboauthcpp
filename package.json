@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@types/jake": "^0.0.28",
+    "@types/mz": "^0.0.31",
+    "@types/node": "^7.0.13",
+    "mz": "^2.6.0"
+  }
+}
