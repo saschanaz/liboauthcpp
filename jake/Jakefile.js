@@ -72,11 +72,25 @@ task("lib", async () => {
   await asyncExec([`${cc} --bind ${flags} -c ${sourceDirectory}/${lib}.cpp ${definingCommand(definitions)}`]);
 });
 
-desc("Builds a JavaScript OAuth component.");
-task("default", ["subcomponent", "lib"], async () => {
-  await asyncExec([`${cc} --bind ${flags} -o ${lib}.js ${lib}.o ${subcomponentFiles("o").join(' ')}`]);
+/**
+ * 
+ * @param {boolean} [asmjs] force asmjs, or wasm by default
+ */
+async function compile(asmjs) {
+  const asmjsParam = asmjs ? `-s WASM=0` : "";
+  await asyncExec([`${cc} --bind ${asmjsParam} ${flags} -o ${lib}.js ${lib}.o ${subcomponentFiles("o").join(' ')}`]);
   const compiled = await mz.readFile(`${lib}.js`, "utf8");
   const license = await mz.readFile("../LICENSE", "utf8");
   await mz.writeFile(`${lib}.js`, `/*\n${license}*/\n\n${compiled}`);
   console.log("liboauthcpp is built successfully.");
+}
+
+desc("Builds a JavaScript OAuth component.");
+task("default", ["subcomponent", "lib"], async () => {
+  await compile();
+});
+
+desc("Builds a JavaScript OAuth component in asm.js.");
+task("asmjs", ["subcomponent", "lib"], async () => {
+  await compile(true);
 });
