@@ -46,6 +46,7 @@ interface liboauthcpp {
   Token: liboauthcpp.TokenConstructor;
   Client: liboauthcpp.ClientConstructor;
   HttpRequestType: liboauthcpp.HttpRequestType;
+  then(callback: (module: liboauthcpp) => any): any;
 }
 
 interface liboauthcppFactory {
