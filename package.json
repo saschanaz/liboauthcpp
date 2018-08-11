@@ -4,5 +4,11 @@
     "@types/mz": "^0.0.31",
     "@types/node": "^7.0.13",
     "mz": "^2.6.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/saschanaz/liboauthcpp.git"
+  },
+  "license": "MIT",
+  "private": true
 }
