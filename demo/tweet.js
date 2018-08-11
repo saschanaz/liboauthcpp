@@ -1,6 +1,6 @@
 /// <reference path="../ts-declaration/liboauthcpp.d.ts" />
 
-const fetch = require("node-fetch");
+const { default: fetch } = require("node-fetch");
 const yargs = require("yargs");
 /** @type {liboauthcpp} */
 const oauth = require("../jake/liboauthcpp.js")();
